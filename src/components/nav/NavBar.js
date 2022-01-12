@@ -20,6 +20,11 @@ export const NavBar = (props) => {
                     Employees
                 </Link>
             </li>
+            <li className="navbar__item">
+                <Link className="navBar__link" to="/customers">
+                    Customers
+                </Link>
+            </li>
         </ul>
     );
 };

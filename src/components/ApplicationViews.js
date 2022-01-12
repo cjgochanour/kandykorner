@@ -4,6 +4,7 @@ import { LocationsList } from "./locations/LocationsList.js";
 import { ProductsList } from "./products/ProductsList.js";
 import { EmployeeList } from "./employees/EmployeeList.js";
 import { EmployeeForm } from "./employees/EmployeeForm.js";
+import { CustomerList } from "./customers/CustomerList.js";
 
 export const ApplicationViews = () => {
     return (
@@ -19,6 +20,9 @@ export const ApplicationViews = () => {
             </Route>
             <Route exact path="/employee/create">
                 <EmployeeForm />
+            </Route>
+            <Route path="/customers">
+                <CustomerList />
             </Route>
         </>
     );
