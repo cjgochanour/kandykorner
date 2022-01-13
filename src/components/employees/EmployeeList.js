@@ -6,11 +6,21 @@ export const EmployeeList = () => {
     const [employees, getEmployee] = useState([]);
     const history = useHistory();
 
-    useEffect(() => {
+    const fetchEmps = () => {
         fetch("http://localhost:8088/employees?_expand=location")
             .then((res) => res.json())
             .then((data) => getEmployee(data));
+    };
+
+    useEffect(() => {
+        fetchEmps();
     }, []);
+
+    const urFired = (event) => {
+        fetch(`http://localhost:8088/employees/${parseInt(event.target.value)}`, { method: "DELETE" }).then(
+            fetchEmps()
+        );
+    };
 
     return (
         <>
@@ -20,6 +30,9 @@ export const EmployeeList = () => {
                 return (
                     <p key={`employee--${employee.id}`}>
                         {employee.name} works at {employee.location.address}
+                        <button value={employee.id} onClick={urFired}>
+                            Fire Employee
+                        </button>
                     </p>
                 );
             })}
