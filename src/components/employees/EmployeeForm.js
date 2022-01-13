@@ -16,7 +16,7 @@ export const EmployeeForm = () => {
         fetch("http://localhost:8088/locations")
             .then((res) => res.json())
             .then((data) => setLocations(data));
-    });
+    }, []);
 
     const saveEmployee = (event) => {
         event.preventDefault();
