@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import { getAllCustomers } from "../ApiManager.js";
+import { getAllCustomers, getAllPurchases } from "../ApiManager.js";
 
 export const CustomerList = () => {
     const [customers, setCustomers] = useState([]);
+    const [purchases, setPurchases] = useState([]);
+
+    useEffect(() => {
+        getAllPurchases().then((data) => setPurchases(data));
+    }, []);
 
     useEffect(() => {
         getAllCustomers().then((data) => setCustomers(data));
@@ -12,7 +17,16 @@ export const CustomerList = () => {
         <>
             <h2>Customer List</h2>
             {customers.map((customer) => {
-                return <p key={`customer--${customer.id}`}>{customer.name}</p>;
+                const purchasedNumber = purchases.filter((purchase) => purchase.customerId === customer.id);
+                return (
+                    <p key={`customer--${customer.id}`}>
+                        {customer.name} has purchased{" "}
+                        {purchasedNumber.length === 1
+                            ? `${purchasedNumber.length} kandy`
+                            : `${purchasedNumber.length} kandies`}
+                        .
+                    </p>
+                );
             })}
         </>
     );
