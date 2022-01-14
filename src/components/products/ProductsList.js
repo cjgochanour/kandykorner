@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
+import { getAllProducts, postPurchase } from "../ApiManager.js";
 
 export const ProductsList = () => {
     const [products, setProducts] = useState([]);
 
     const fetchProducts = () => {
-        fetch("http://localhost:8088/products?_expand=productType&_sort=productTypeId")
-            .then((res) => res.json())
-            .then((data) => setProducts(data));
+        getAllProducts().then((data) => setProducts(data));
     };
 
     useEffect(() => {
@@ -20,11 +19,7 @@ export const ProductsList = () => {
             employeeId: 1,
             productId: parseInt(event.target.value),
         };
-        fetch("http://localhost:8088/purchases", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(obj),
-        }).then(() => {
+        postPurchase(obj).then(() => {
             fetchProducts();
             window.alert("Order Created!");
         });
@@ -35,14 +30,17 @@ export const ProductsList = () => {
             <h2>Products</h2>
             {products.map((product) => {
                 return (
-                    <>
-                        <p key={`product--${product.id}`}>
-                            {product.name} | $ {product.price} | {product.productType.type}
-                            <button value={product.id} onClick={makePurchase}>
-                                Purchase
-                            </button>
-                        </p>
-                    </>
+                    <p key={`product--${product.id}`}>
+                        {product.name} |{" "}
+                        {product.price.toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                        })}{" "}
+                        | {product.productType.type}{" "}
+                        <button value={product.id} onClick={makePurchase}>
+                            Purchase
+                        </button>
+                    </p>
                 );
             })}
         </>

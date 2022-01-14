@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { getAllLocations, postEmployee } from "../ApiManager.js";
 
 export const EmployeeForm = () => {
     const [employee, setEmployee] = useState({
@@ -13,9 +14,7 @@ export const EmployeeForm = () => {
     const history = useHistory();
 
     useEffect(() => {
-        fetch("http://localhost:8088/locations")
-            .then((res) => res.json())
-            .then((data) => setLocations(data));
+        getAllLocations().then((data) => setLocations(data));
     }, []);
 
     const saveEmployee = (event) => {
@@ -27,12 +26,7 @@ export const EmployeeForm = () => {
             isFullTime: employee.isFullTime,
             wage: employee.wage,
         };
-        const fetchOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(hire),
-        };
-        fetch("http://localhost:8088/employees", fetchOptions).then(() => history.push("/employees"));
+        postEmployee(hire).then(() => history.push("/employees"));
     };
 
     return (

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { getCustomersEmail, postCustomer } from "../ApiManager.js";
 import "./Login.css";
 
 export const Register = (props) => {
@@ -9,28 +10,18 @@ export const Register = (props) => {
     const history = useHistory();
 
     const existingUserCheck = () => {
-        return fetch(`http://localhost:8088/customers?email=${customer.email}`)
-            .then((res) => res.json())
-            .then((user) => !!user.length);
+        return getCustomersEmail(customer.email).then((user) => !!user.length);
     };
     const handleRegister = (e) => {
         e.preventDefault();
         existingUserCheck().then((userExists) => {
             if (!userExists) {
-                fetch("http://localhost:8088/customers", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(customer),
-                })
-                    .then((res) => res.json())
-                    .then((createdUser) => {
-                        if (createdUser.hasOwnProperty("id")) {
-                            localStorage.setItem("kandy_customer", createdUser.id);
-                            history.push("/");
-                        }
-                    });
+                postCustomer(customer).then((createdUser) => {
+                    if (createdUser.hasOwnProperty("id")) {
+                        localStorage.setItem("kandy_customer", createdUser.id);
+                        history.push("/");
+                    }
+                });
             } else {
                 conflictDialog.current.showModal();
             }

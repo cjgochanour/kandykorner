@@ -1,15 +1,14 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { deleteEmployee, getAllEmployees } from "../ApiManager.js";
 
 export const EmployeeList = () => {
-    const [employees, getEmployee] = useState([]);
+    const [employees, setEmployee] = useState([]);
     const history = useHistory();
 
     const fetchEmps = () => {
-        fetch("http://localhost:8088/employees?_expand=location")
-            .then((res) => res.json())
-            .then((data) => getEmployee(data));
+        getAllEmployees().then((data) => setEmployee(data));
     };
 
     useEffect(() => {
@@ -17,9 +16,7 @@ export const EmployeeList = () => {
     }, []);
 
     const urFired = (event) => {
-        fetch(`http://localhost:8088/employees/${parseInt(event.target.value)}`, { method: "DELETE" }).then(
-            fetchEmps()
-        );
+        deleteEmployee(parseInt(event.target.value)).then(fetchEmps());
     };
 
     return (
