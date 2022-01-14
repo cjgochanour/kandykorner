@@ -10,7 +10,14 @@ export const CustomerList = () => {
     }, []);
 
     useEffect(() => {
-        getAllCustomers().then((data) => setCustomers(data));
+        getAllCustomers().then((data) => {
+            for (const d of data) {
+                const purchasedNumber = purchases.filter((purchase) => purchase.customerId === d.id);
+                d.purchasesMade = purchasedNumber.length;
+            }
+            data.sort((a, b) => (a.purchasesMade > b.purchasesMade ? -1 : 1));
+            setCustomers(data);
+        });
     }, []);
 
     return (
@@ -31,3 +38,7 @@ export const CustomerList = () => {
         </>
     );
 };
+
+// list.sort((a, b) => (a.color > b.color ? 1 : -1));
+
+// I have two arrays, I need to sort the customer array by the number of orders the customer has made in the purchases array
