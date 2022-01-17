@@ -7,9 +7,11 @@ export const OrdersList = () => {
 
     const createLineItem = (product) => {
         let line = 0;
+        let total = 0;
         for (const purchase of purchases) {
             if (purchase.productId === product.id) {
                 line += 1;
+                total += product.price;
             }
         }
         if (line === 0) {
@@ -17,11 +19,11 @@ export const OrdersList = () => {
         } else {
             return (
                 <section className="order" key={`product--${product.id}`}>
-                    <div className="order__product">Kandy purchased: {product.name}</div>
+                    <div className="order__product">Kandy Purchased: {product.name}</div>
                     <div className="order__quantity">Quantity: {line}</div>
                     <div className="order__price">
-                        Price/unit:{" "}
-                        {product.price.toLocaleString("en-US", {
+                        Total Cost:{" "}
+                        {total.toLocaleString("en-US", {
                             style: "currency",
                             currency: "USD",
                         })}
