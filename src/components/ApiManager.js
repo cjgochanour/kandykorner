@@ -37,9 +37,7 @@ export const getUserPurchase = (id) => {
 };
 export const getUserPurchases = () => {
     return fetch(
-        `http://localhost:8088/purchases?_expand=customer&_expand=employee&customerId=${localStorage.getItem(
-            "kandy_customer"
-        )}`
+        `http://localhost:8088/purchases?_expand=product&customerId=${localStorage.getItem("kandy_customer")}`
     ).then((res) => res.json());
 };
 export const postPurchase = (obj) => {

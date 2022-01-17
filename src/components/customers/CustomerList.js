@@ -38,7 +38,3 @@ export const CustomerList = () => {
         </>
     );
 };
-
-// list.sort((a, b) => (a.color > b.color ? 1 : -1));
-
-// I have two arrays, I need to sort the customer array by the number of orders the customer has made in the purchases array
