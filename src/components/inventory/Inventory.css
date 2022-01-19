@@ -1,0 +1,23 @@
+.inventoryList {
+    display: table;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    margin: auto;
+}
+
+.inventoryList--item {
+    background-color: rgb(216, 235, 253);
+    margin: 10px;
+    padding: 20px 25px;
+    list-style-type: none;
+    text-align: center;
+    align-items: center;
+}
+.inventoryList--item:nth-child(even) {
+    background-color: rgb(173, 214, 250);
+}
+.searchBox {
+    margin: 1em;
+}
